@@ -8,6 +8,8 @@ def caesar_cipher_encrypt(plain_text: str, shift_number: int) -> str:
     global alphabet
     cipher_text = ""
     for letter in plain_text:
+        if letter not in alphabet:
+            continue
         position = alphabet.index(letter)
         new_position = (position + shift_number) % 26
         new_letter = alphabet[new_position]
@@ -20,6 +22,8 @@ def caesar_cipher_decrypt(cipher_text: str, shift_number: int):
     global alphabet
     plain_text = ""
     for letter in cipher_text:
+        if letter not in alphabet:
+            continue
         position = alphabet.index(letter)
         new_position = (position - shift_number) % 26
         plain_text += alphabet[new_position]

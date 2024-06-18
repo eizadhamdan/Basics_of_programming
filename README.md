@@ -1,4 +1,4 @@
 # Bootcamp
 
 
-In this repository, I have uploaded small practice projects that I made while learning basic programming concepts.
+In this repository, I have uploaded small practice projects and practice files that I wrote while learning basic programming concepts.

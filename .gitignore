@@ -8,3 +8,37 @@
 /learning_js
 /Learning_OpenGL/glfw
 /.vs
+
+# Build output directories
+Debug/
+Release/
+x64/
+x86/
+*.obj
+*.pdb
+*.exe
+*.dll
+
+# Visual Studio specific
+.vs/
+*.vcxproj.user
+*.vcxproj.filters
+*.ipch
+*.idb
+*.log
+*.tlog
+*.lastbuildstate
+
+# Temporary files
+*.tmp
+*.cache
+*.log
+
+# Dependency or package manager files (if applicable)
+.vscode/
+*.nuget/
+*.cmake/
+
+# OS-specific
+.DS_Store
+Thumbs.db

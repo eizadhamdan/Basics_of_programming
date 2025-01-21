@@ -1,8 +1,9 @@
-#include <GL/glut.h>
+
+#include <GLFW/glfw3.h>
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <cstring>
+#include <cmath>
 #include <algorithm>
 
 #define INF 1000000000
@@ -19,11 +20,9 @@ float node_positions[MAX_NODES][2]; // Store positions for visualization
 // Function to display text on screen
 void drawText(float x, float y, const char *text)
 {
-    glRasterPos2f(x, y);
-    for (const char *c = text; *c != '\0'; c++)
-    {
-        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
-    }
+    // GLFW does not have a built-in text rendering system
+    // You would need to use a library like FreeType for text rendering.
+    // This is a placeholder to remind that text rendering is omitted here.
 }
 
 // BFS to find an augmenting path
@@ -92,8 +91,6 @@ int fordFulkerson(int s, int t)
 // Function to draw the graph
 void drawGraph()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
-
     // Draw edges
     for (int i = 0; i < num_nodes; i++)
     {
@@ -121,23 +118,7 @@ void drawGraph()
             glVertex2f(x + node_positions[i][0], y + node_positions[i][1]);
         }
         glEnd();
-
-        char label[3];
-        sprintf(label, "%d", i);
-        drawText(node_positions[i][0] - 0.01f, node_positions[i][1] - 0.01f, label);
     }
-
-    glFlush();
-}
-
-// Initialize OpenGL settings
-void initOpenGL()
-{
-    glClearColor(1.0, 1.0, 1.0, 1.0);
-    glColor3f(0.0, 0.0, 0.0);
-    glPointSize(5.0);
-    glLineWidth(2.0);
-    gluOrtho2D(-1.0, 1.0, -1.0, 1.0);
 }
 
 // Input graph from user
@@ -172,19 +153,40 @@ void inputGraph()
     cout << "The maximum flow is: " << max_flow << endl;
 }
 
-int main(int argc, char **argv)
+int main()
 {
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(800, 800);
-    glutCreateWindow("Ford-Fulkerson Algorithm Visualization");
+    if (!glfwInit())
+    {
+        cerr << "Failed to initialize GLFW" << endl;
+        return -1;
+    }
 
-    initOpenGL();
+    GLFWwindow *window = glfwCreateWindow(800, 800, "Ford-Fulkerson Algorithm Visualization", NULL, NULL);
+    if (!window)
+    {
+        cerr << "Failed to create GLFW window" << endl;
+        glfwTerminate();
+        return -1;
+    }
+
+    glfwMakeContextCurrent(window);
+
+    glClearColor(1.0, 1.0, 1.0, 1.0);
 
     inputGraph();
 
-    glutDisplayFunc(drawGraph);
-    glutMainLoop();
+    while (!glfwWindowShouldClose(window))
+    {
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        drawGraph();
+
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    glfwDestroyWindow(window);
+    glfwTerminate();
 
     return 0;
 }

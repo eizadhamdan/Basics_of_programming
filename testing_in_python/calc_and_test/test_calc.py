@@ -28,3 +28,7 @@ class TestCalc(unittest.TestCase):
         self.assertNotEqual(calc.divide(10, 5), 3)
         with self.assertRaises(ValueError):
             calc.divide(10, 0)
+
+
+if __name__ == "__main__":
+    unittest.main()

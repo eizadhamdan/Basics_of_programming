@@ -1,5 +1,6 @@
 import unittest
 import employee
+from unittest.mock import patch
 
 
 class TestEmployee(unittest.TestCase):
@@ -61,6 +62,36 @@ class TestEmployee(unittest.TestCase):
         self.assertNotEqual(self.emp2.position, "Developer")
         self.assertNotEqual(self.emp1.salary, 59000)
         self.assertNotEqual(self.emp2.salary, 71000)
+
+    # @patch('employee.requests.get')
+    # def test_monthly_schedule(self, mock_get):
+    #     # Test for a successful response
+    #     mock_get.return_value.ok = True
+    #     mock_get.return_value.text = "Schedule data"
+    #     schedule = self.emp1.monthly_schedule("May")
+    #     mock_get.assert_called_with("http://company.com/Doe/May")
+    #     self.assertEqual(schedule, "Schedule data")
+
+    #     # Test for a failed response
+    #     mock_get.return_value.ok = False
+    #     schedule = self.emp2.monthly_schedule("June")
+    #     mock_get.assert_called_with("http://company.com/Smith/June")
+    #     self.assertEqual(schedule, "Bad Response!")
+
+    def test_monthly_schedule(self):
+        with patch("employee.requests.get") as mock_get:
+            # Test for a successful response
+            mock_get.return_value.ok = True
+            mock_get.return_value.text = "Schedule data"
+            schedule = self.emp1.monthly_schedule("May")
+            mock_get.assert_called_with("http://company.com/Doe/May")
+            self.assertEqual(schedule, "Schedule data")
+
+            # Test for a failed response
+            mock_get.return_value.ok = False
+            schedule = self.emp2.monthly_schedule("June")
+            mock_get.assert_called_with("http://company.com/Smith/June")
+            self.assertEqual(schedule, "Bad Response!")
 
 
 if __name__ == "__main__":

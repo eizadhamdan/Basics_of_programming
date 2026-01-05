@@ -1,3 +1,6 @@
+import requests
+
+
 class Employee:
     """A simple Employee class"""
 
@@ -28,3 +31,11 @@ class Employee:
     def promote(self, new_position, raise_amount):
         self.position = new_position
         self.give_raise(raise_amount)
+
+    def monthly_schedule(self, month):
+        """Fetch the monthly schedule for an employee from a web service."""
+        response = requests.get(f"http://company.com/{self.last_name}/{month}")
+        if response.ok:
+            return response.text
+        else:
+            return "Bad Response!"

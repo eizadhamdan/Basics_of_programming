@@ -1,5 +1,6 @@
 import unittest
 import calc
+import pytest
 
 
 class TestCalc(unittest.TestCase):
@@ -26,10 +27,16 @@ class TestCalc(unittest.TestCase):
         self.assertEqual(calc.divide(-1, 1), -1)
         self.assertEqual(calc.divide(-1, -1), 1)
         self.assertNotEqual(calc.divide(10, 5), 3)
+
         with self.assertRaises(ValueError):
             calc.divide(10, 0)
+
         self.assertRaises(ValueError, calc.divide, 5, 0)
+
+        with pytest.raises(ValueError, match="Cannot divide by zero"):
+            calc.divide(10, 0)
 
 
 if __name__ == "__main__":
-    unittest.main()
+    # unittest.main()
+    pytest.main()

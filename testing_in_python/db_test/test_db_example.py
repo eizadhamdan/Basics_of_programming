@@ -1,5 +1,5 @@
 import pytest
-from db_example import Database
+from db_example import Database, save_user_to_db
 
 
 @pytest.fixture
@@ -35,3 +35,15 @@ def test_delete_nonexistent_user(db):
     with pytest.raises(ValueError) as excinfo:
         db.delete_user(1)
     assert str(excinfo.value) == "User ID does not exist."
+
+
+def test_save_user_to_db(mocker):
+    mock_conn = mocker.patch("sqlite3.connect")
+    mock_cursor = mock_conn.return_value.cursor.return_value
+
+    save_user_to_db("Charlie", 30)
+
+    mock_conn.assert_called_once_with("users.db")
+    mock_cursor.execute_called_once_with(
+        "INSERT INTO users (name, age) VALUES (?, ?)", ("Charlie", 30)
+    )
